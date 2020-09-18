@@ -1,5 +1,5 @@
 # Site settings
-baseURL = "http://example.org/"
+baseURL = "https://nitya-chopra.netlify.app/"
 languageCode = "en-us"
 title = "Nitya's Portfolio Website"
 theme = "forty"
@@ -95,13 +95,13 @@ disqusShortname = ""
       title = "Cheers!"
       subtitle = "Where Do People Drink the Most Wine, Beer and Spirits?"
       image = "pic01.jpg"
-      url = "blogs/aliquam"
+      url = "projects/project1"
 
     [[params.tiles.showcase]]
       title = "Netflix + R"
       subtitle = "Analysis of Movies from an IMDB Dataset"
       image = "pic02.jpg"
-      url = "blogs/tempus"
+      url = "projects/project2"
 
     [[params.tiles.showcase]]
       title = "It's Getting Hot In Here"

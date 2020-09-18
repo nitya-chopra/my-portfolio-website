@@ -1,0 +1,90 @@
+---
+title: "Cheers!"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+# Where Do People Drink The Most Beer, Wine And Spirits?
+
+Using the 'drinks' data from the 'fivethirtyeight' package, we are analyzing the consumption of beer, wine and spirits in different countries. 
+
+```{r, load_alcohol_data}
+# loading the package and dataset
+library(fivethirtyeight)
+data(drinks)
+```
+
+Viewing variable types
+
+```{r glimpse_skim_data}
+# reviewing all columns and data types in the dataset
+glimpse(drinks)
+
+# using head and skim function to explore the data further
+head(drinks)
+```
+
+As shown above, there are 5 variables with 3 variable types. 'country' is the only character variable and 'total_litres_of_pure_alcohol' is the only double variable (floating with two decimal places). The 3 integer variables are 'beer_servimngs', 'spirit_servings' and 'wine_servings'.
+There seems to be no missing data. However there are 0 values assigned to 13 countries. 
+
+Plotting the top 25 beer consuming countries
+
+```{r beer_plot}
+# extracting the top 25 values for beer servings 
+top_beer_countries <- drinks %>% 
+  top_n(25,beer_servings)
+
+# creating a bar plot in descending order of beer consumed in each country
+ggplot(data = top_beer_countries, mapping = aes(x = beer_servings, y = reorder(country, beer_servings), fill = beer_servings)) +
+  geom_col() +
+  labs(title = "Top 25 Beer Drinking Countries", x = "Beer Consumption", y = "Country") +
+  theme(legend.position = "none") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  NULL
+```
+
+Plotting the top 25 wine consuming countries
+
+```{r wine_plot}
+# extracting the top 25 values for wine servings 
+top_wine_countries <- drinks %>%
+  top_n(25,wine_servings)
+
+# creating a bar plot in descending order of wine consumed in each country
+ggplot(data = top_wine_countries, aes(x = wine_servings, y = reorder(country, wine_servings), fill = wine_servings)) +
+  geom_col() +
+  labs(title = "Top 25 Wine Drinking Countries", x = "Wine Consumption", y = "Country") +
+  theme(legend.position = "none") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  NULL
+```
+
+Plotting the top 25 spirit consuming countries
+
+```{r spirit_plot}
+# extracting the top 25 values for spirit servings 
+top_spirit_countries <- drinks %>% 
+  top_n(25,spirit_servings)
+
+# creating a bar plot in descending order of spirits consumed in each country
+ggplot(data = top_spirit_countries, aes(x = spirit_servings, y = reorder(country, spirit_servings), fill = spirit_servings)) +
+  geom_col() +
+  labs(title = "Top 25 Spirit Drinking Countries", x = "Spirit Consumption", y = "Country") + 
+  theme(legend.position = "none") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  NULL
+
+```
+
+From viewing the graphs above, it is clear that geography affects the level of of consumption of wine, beer and spirits. In the top 25 beer and wine consuming countries, European countries are predominantly present. In contrast, spirits are more diverse with Asian countries such as Thailand, Japan, China and even Oceania making an appearance from the Cook Islands. 
+
+This could be due to both culture and climate of each country. Consumption seems to follow production. France, famously known for its wide variety of wine production, unsurprisingly is the top consumer of wine. Other countries that host favorable climate and cultures are also present near the top of the list- from Portugal to Italy. Furthermore, this trend is repeated in the consumption of beer with Germany and Ireland near the top of the list. Oktoberfest and Guinness, two respective cultural hallmarks of each country understandably explains this trend. 
+
+In contrast, spirits are more diverse, reflecting the variety of methods to create them from Russian potatoes to sugar cane in the Caribbean. The range between the top 25 beer drinking countries is far lower than both wine and in particular Grenada vs. other countries. This could show that people have less polarized taste to beer compared to wine and spirits.
