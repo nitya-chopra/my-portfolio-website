@@ -11,22 +11,6 @@ output:
     code_folding: show
 ---
 
-```{r, setup}
-knitr::opts_chunk$set(
-  message = FALSE, 
-  warning = FALSE, 
-  tidy=FALSE,     # display code as typed
-  size="small")   # slightly smaller font for code
-options(digits = 3)
-
-# default figure size
-knitr::opts_chunk$set(
-  fig.width=6.75, 
-  fig.height=6.75,
-  fig.align = "center"
-)
-```
-
 ```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
 # Load ggplot2, dplyr, and all the other tidyverse packages
 library(tidyverse)  
@@ -54,13 +38,12 @@ data(drinks)
 Viewing variable types
 
 ```{r glimpse_skim_data}
+
 # reviewing all columns and data types in the dataset
 glimpse(drinks)
 
 # using head and skim function to explore the data further
 head(drinks)
-skim(drinks)
-
 ```
 
 As shown above, there are 5 variables with 3 variable types. 'country' is the only character variable and 'total_litres_of_pure_alcohol' is the only double variable (floating with two decimal places). The 3 integer variables are 'beer_servimngs', 'spirit_servings' and 'wine_servings'.

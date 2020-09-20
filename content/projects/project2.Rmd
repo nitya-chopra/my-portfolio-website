@@ -11,11 +11,26 @@ output:
     code_folding: show
 ---
 
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+# Load ggplot2, dplyr, and all the other tidyverse packages
+library(tidyverse)  
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(fivethirtyeight)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+```
+
 # Analysis of movies- IMDB dataset
 
 A sample of movies will be analyzed from the IMDB 5000 movie dataset.
   
 ```{r,load_movies, warning=FALSE, message=FALSE}
+
 # The movies dataset is created taken from the csv file "movies.csv"
 movies <- read.csv(here::here("data", "movies.csv"))
 
@@ -127,20 +142,25 @@ ggplot(data = movies, mapping = aes(x = budget, y = gross)) +
   NULL
 
 ```
+
 As seen in the plot above, budget is a better indicator to determine gross revenue for each movie, however it is by far a perfect indicator. For each budget value, there is a wide spread of values for gross revenue. However, it is clear that with a low budget, a movie is likely to have low gross revenue. 
 
 Let us also check if ratings are a good indicator of gross revenue a movie earns. 
 
 ```{r, gross_on_rating}
+
+options(warn=-1)
+
 # plotting ratings and gross earnings of movies faceted by genre
 movies %>% 
 ggplot(data = movies, mapping = aes(x = rating, y = gross)) +
   geom_point(alpha = 0.2) +
-  labs(title = "Relationship Between Gross Earnings and Ratings ", x = "Rating", y = "Gross") + 
   geom_smooth() +
+  labs(title = "Relationship Between Gross Earnings and Ratings ", x = "Rating", y = "Gross") + 
   facet_wrap(~genre) +
   NULL
 ```
+
 As seen above there are varying relationships developed for IMDB rating and gross revenue for each genre. 
 
 Genres that have the largest data such as action, comedy and drama show that as ratings increase, there is more gross revenue. Action in particular highlights this relationship. However there are a few genres with limited data points where no relationship can be established such as Musical, Romance, Thriller and Western.

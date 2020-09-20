@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Student of Master&#39;s in Analytics and Management at London Business School">
+	<meta name="author" content="Nitya Chopra">
+	<meta name="generator" content="Hugo 0.74.3" />
+	<title>Et tu, Brexit? &middot; Nitya&#39;s Portfolio Website</title>
+	<!-- Stylesheets -->
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	
+	
+
+	
+
+	<!-- Custom Fonts -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/ie/html5shiv.js"></script>
+	<script src="js/ie/html5shiv.jsrespond.min.js"></script>
+	<![endif]-->
+</head>
+
+    <body>
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+    <header id="header" class="alt">
+        <a href="/" class="logo"><strong>Applied Stats with R</strong> <span></span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+<!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            
+                <li><a href="/">Home</a></li>
+            
+                <li><a href="/blogs">R Projects</a></li>
+            
+
+        </ul>
+        <ul class="actions vertical">
+            
+            
+        </ul>
+    </nav>
+
+        <!-- Main -->
+            <div id="main" class="alt">
+
+                
+                    <section id="one">
+                        <div class="inner">
+                            <header class="major">
+                                <h1>Et tu, Brexit?</h1>
+                            </header>
+                            
+                            
+
+
+<div id="brexit-plot" class="section level1">
+<h1>Brexit plot</h1>
+<p>Brexit results plotted by UK political parties to answer how political affilitation translated to Brexit voting</p>
+<pre class="r"><code># load the data
+brexit_results &lt;- read_csv(here::here(&quot;Data&quot;,&quot;brexit_results.csv&quot;))</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Seat = col_character(),
+##   con_2015 = col_double(),
+##   lab_2015 = col_double(),
+##   ld_2015 = col_double(),
+##   ukip_2015 = col_double(),
+##   leave_share = col_double(),
+##   born_in_uk = col_double(),
+##   male = col_double(),
+##   unemployed = col_double(),
+##   degree = col_double(),
+##   age_18to24 = col_double()
+## )</code></pre>
+<pre class="r"><code>glimpse(brexit_results)</code></pre>
+<pre><code>## Rows: 632
+## Columns: 11
+## $ Seat        &lt;chr&gt; &quot;Aldershot&quot;, &quot;Aldridge-Brownhills&quot;, &quot;Altrincham and Sale …
+## $ con_2015    &lt;dbl&gt; 50.592, 52.050, 52.994, 43.979, 60.788, 22.418, 52.454, 2…
+## $ lab_2015    &lt;dbl&gt; 18.333, 22.369, 26.686, 34.781, 11.197, 41.022, 18.441, 4…
+## $ ld_2015     &lt;dbl&gt; 8.824, 3.367, 8.383, 2.975, 7.192, 14.828, 5.984, 2.423, …
+## $ ukip_2015   &lt;dbl&gt; 17.867, 19.624, 8.011, 15.887, 14.438, 21.409, 18.821, 21…
+## $ leave_share &lt;dbl&gt; 57.89777, 67.79635, 38.58780, 65.29912, 49.70111, 70.4728…
+## $ born_in_uk  &lt;dbl&gt; 83.10464, 96.12207, 90.48566, 97.30437, 93.33793, 96.9621…
+## $ male        &lt;dbl&gt; 49.89896, 48.92951, 48.90621, 49.21657, 48.00189, 49.1718…
+## $ unemployed  &lt;dbl&gt; 3.637000, 4.553607, 3.039963, 4.261173, 2.468100, 4.74273…
+## $ degree      &lt;dbl&gt; 13.870661, 9.974114, 28.600135, 9.336294, 18.775591, 6.08…
+## $ age_18to24  &lt;dbl&gt; 9.406093, 7.325850, 6.437453, 7.747801, 5.734730, 8.20986…</code></pre>
+<pre class="r"><code># define specifics for plot
+brexit_filtered &lt;- brexit_results %&gt;% 
+                    select(leave_share, lab_2015, ukip_2015, con_2015, ld_2015)
+
+brexit_filtered</code></pre>
+<pre><code>## # A tibble: 632 x 5
+##    leave_share lab_2015 ukip_2015 con_2015 ld_2015
+##          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1        57.9     18.3     17.9      50.6    8.82
+##  2        67.8     22.4     19.6      52.0    3.37
+##  3        38.6     26.7      8.01     53.0    8.38
+##  4        65.3     34.8     15.9      44.0    2.98
+##  5        49.7     11.2     14.4      60.8    7.19
+##  6        70.5     41.0     21.4      22.4   14.8 
+##  7        59.9     18.4     18.8      52.5    5.98
+##  8        61.8     49.8     21.8      22.1    2.42
+##  9        51.8     15.1     19.7      50.7   10.6 
+## 10        50.3     21.3     13.9      53.0    5.93
+## # … with 622 more rows</code></pre>
+<pre class="r"><code>options(warn=-1)
+
+colors &lt;- c(&quot;Labour&quot;=&quot;#DC241f&quot;, &quot;UKIP&quot;=&quot;#EFE600&quot;, &quot;Conservative&quot;=&quot;#0087DC&quot;, &quot;Lib Dems&quot;=&quot;#FDBB30&quot;)
+
+brexit_plot &lt;- ggplot(brexit_filtered, aes(y=leave_share)) +
+                  geom_point(aes(x=lab_2015,
+                               color=&quot;Labour&quot;),   # color for Labour Party
+                               alpha=0.3           # reduce transparency of points
+                               ) +
+                    geom_smooth(aes(x=lab_2015,
+                                color=&quot;Labour&quot;),
+                                alpha=0.3, 
+                                method=lm          # lm is method for smoothing when you want a straight line
+                                )+
+                    geom_point(aes(x=con_2015,
+                               color=&quot;Conservative&quot;),   # color for Conservative and Unionist Party
+                               alpha=0.3
+                               )+
+                    geom_smooth(aes(x=con_2015,
+                                color=&quot;Conservative&quot;),
+                                alpha=0.3, 
+                                method=lm
+                                )+
+                    geom_point(aes(x=ld_2015,
+                               color=&quot;Lib Dems&quot;),   # color for Liberal Democrats
+                               alpha=0.3
+                               )+
+                    geom_smooth(aes(x=ld_2015,
+                                color=&quot;Lib Dems&quot;),   
+                                alpha=0.3, 
+                                method=lm
+                                )+
+                    geom_point(aes(x=ukip_2015,
+                               color=&quot;UKIP&quot;),   # color for UK Independence Party
+                               alpha=0.3
+                               )+
+                    geom_smooth(aes(x=ukip_2015,
+                                color=&quot;UKIP&quot;),
+                                alpha=0.3, 
+                                method=lm
+                                ) +
+   labs(title = &quot;How political affiliation translated to Brexit Voting&quot;, 
+        x = &quot;Party % in the UK 2015 general election&quot;,   # changing axes titles
+        y = &quot;Leave % in the 2016 Brexit referendum&quot;,
+        color = &quot;&quot;
+          ) +
+  scale_color_manual(values=colors) +
+  scale_x_discrete(limits=c(0 ,20, 40, 60, 80)) +        # change x axis scale
+  theme_bw() +                                           # white and grey theme
+  theme(
+    plot.title = element_text(face=&quot;bold&quot;),   # bold title
+    legend.position = &quot;bottom&quot;,               # change position of legend            
+    legend.direction = &quot;horizontal&quot;          # change orientation of legend
+    ) +        
+  NULL
+
+brexit_plot</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/projects/project6_files/figure-html/unnamed-chunk-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+
+                        </div>
+                    </section>
+            <!-- Disqus Inject -->
+                
+            </div>
+            
+        <!-- Footer -->
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>

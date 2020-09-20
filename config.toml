@@ -94,38 +94,38 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "Cheers!"
       subtitle = "Where Do People Drink the Most Wine, Beer and Spirits?"
-      image = "pic01.jpg"
+      image = "projects/spirits.jpg"
       url = "projects/project1"
 
     [[params.tiles.showcase]]
       title = "Netflix + R"
       subtitle = "Analysis of Movies from an IMDB Dataset"
-      image = "pic02.jpg"
+      image = "projects/imdb.jpg"
       url = "projects/project2"
 
     [[params.tiles.showcase]]
       title = "It's Getting Hot In Here"
       subtitle = "Climate change and temperature anomalies"
-      image = "pic03.jpg"
-      url = "blogs/magna"
+      image = "projects/climate.jpg"
+      url = "projects/project3"
 
     [[params.tiles.showcase]]
       title = "If Only We Could Bike Away from COVID"
       subtitle = "annual and monthly trends in tfl bike rentals"
-      image = "pic04.jpg"
-      url = "blogs/ipsum"
+      image = "projects/bike.jpg"
+      url = "projects/project4"
 
     [[params.tiles.showcase]]
       title = "High-schoolers & (Hypothe)size"
-      subtitle = "analysing health patterns in 9-12 graders for disease control and prevention"
-      image = "pic05.jpg"
-      url = "blogs/ipsum"
-
+      subtitle = "youth risk behaviour surveillance for disease control and prevention"
+      image = "projects/kids.jpg"
+      url = "projects/project5"
+      
     [[params.tiles.showcase]]
       title = "Et tu, Brexit?"
       subtitle = "how political affiliation translated to brexit voting"
-      image = "pic06.jpg"
-      url = "blogs/ipsum"
+      image = "projects/brexit.jpg"
+      url = "projects/project6"
     # You can make more showcases by copy and pasting the code above
 
   [params.blog]

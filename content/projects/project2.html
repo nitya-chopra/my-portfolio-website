@@ -1,6 +1,6 @@
 ---
-title: "Project 2"
-date: "2020-09-18"
+title: "Netflix + R"
+date: "2020-09-19"
 output:
   html_document:
     theme: flatly
@@ -13,19 +13,6 @@ output:
 
 
 
-<pre class="r"><code>knitr::opts_chunk$set(
-  message = FALSE, 
-  warning = FALSE, 
-  tidy=FALSE,     # display code as typed
-  size=&quot;small&quot;)   # slightly smaller font for code
-options(digits = 3)
-
-# default figure size
-knitr::opts_chunk$set(
-  fig.width=6.75, 
-  fig.height=6.75,
-  fig.align = &quot;center&quot;
-)</code></pre>
 <div id="analysis-of-movies--imdb-dataset" class="section level1">
 <h1>Analysis of movies- IMDB dataset</h1>
 <p>A sample of movies will be analyzed from the IMDB 5000 movie dataset.</p>
@@ -152,19 +139,19 @@ glimpse(movies)</code></pre>
 </tbody>
 </table>
 <p><strong>Variable type: numeric</strong></p>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="18%" />
+<col width="15%" />
+<col width="7%" />
+<col width="11%" />
 <col width="9%" />
-<col width="12%" />
-<col width="8%" />
-<col width="8%" />
-<col width="6%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
+<col width="9%" />
 <col width="5%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="4%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -186,104 +173,104 @@ glimpse(movies)</code></pre>
 <td align="left">year</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">2.00e+03</td>
-<td align="right">9.95e+00</td>
+<td align="right">2002.90</td>
+<td align="right">9.95</td>
 <td align="right">1920.0</td>
-<td align="right">2.00e+03</td>
-<td align="right">2.00e+03</td>
-<td align="right">2.01e+03</td>
-<td align="right">2.02e+03</td>
+<td align="right">1999.0</td>
+<td align="right">2004.0</td>
+<td align="right">2010.0</td>
+<td align="right">2016.0</td>
 <td align="left">▁▁▁▂▇</td>
 </tr>
 <tr class="even">
 <td align="left">duration</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">1.10e+02</td>
-<td align="right">2.22e+01</td>
+<td align="right">109.65</td>
+<td align="right">22.17</td>
 <td align="right">37.0</td>
-<td align="right">9.50e+01</td>
-<td align="right">1.06e+02</td>
-<td align="right">1.19e+02</td>
-<td align="right">3.30e+02</td>
+<td align="right">95.0</td>
+<td align="right">106.0</td>
+<td align="right">119.0</td>
+<td align="right">330.0</td>
 <td align="left">▃▇▁▁▁</td>
 </tr>
 <tr class="odd">
 <td align="left">gross</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">5.81e+07</td>
-<td align="right">7.25e+07</td>
+<td align="right">58090400.90</td>
+<td align="right">72469621.94</td>
 <td align="right">703.0</td>
-<td align="right">1.23e+07</td>
-<td align="right">3.47e+07</td>
-<td align="right">7.56e+07</td>
-<td align="right">7.61e+08</td>
+<td align="right">12276810.0</td>
+<td align="right">34703228.0</td>
+<td align="right">75590286.0</td>
+<td align="right">760505847.0</td>
 <td align="left">▇▁▁▁▁</td>
 </tr>
 <tr class="even">
 <td align="left">budget</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">4.06e+07</td>
-<td align="right">4.37e+07</td>
+<td align="right">40619384.06</td>
+<td align="right">43682007.78</td>
 <td align="right">218.0</td>
-<td align="right">1.10e+07</td>
-<td align="right">2.60e+07</td>
-<td align="right">5.50e+07</td>
-<td align="right">3.00e+08</td>
+<td align="right">11000000.0</td>
+<td align="right">26000000.0</td>
+<td align="right">55000000.0</td>
+<td align="right">300000000.0</td>
 <td align="left">▇▂▁▁▁</td>
 </tr>
 <tr class="odd">
 <td align="left">cast_facebook_likes</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">1.24e+04</td>
-<td align="right">2.05e+04</td>
+<td align="right">12393.76</td>
+<td align="right">20530.11</td>
 <td align="right">0.0</td>
-<td align="right">2.24e+03</td>
-<td align="right">4.60e+03</td>
-<td align="right">1.69e+04</td>
-<td align="right">6.57e+05</td>
+<td align="right">2241.0</td>
+<td align="right">4604.0</td>
+<td align="right">16926.0</td>
+<td align="right">656730.0</td>
 <td align="left">▇▁▁▁▁</td>
 </tr>
 <tr class="even">
 <td align="left">votes</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">1.09e+05</td>
-<td align="right">1.58e+05</td>
+<td align="right">109307.49</td>
+<td align="right">158143.91</td>
 <td align="right">5.0</td>
-<td align="right">1.99e+04</td>
-<td align="right">5.57e+04</td>
-<td align="right">1.33e+05</td>
-<td align="right">1.69e+06</td>
+<td align="right">19918.0</td>
+<td align="right">55749.0</td>
+<td align="right">133348.0</td>
+<td align="right">1689764.0</td>
 <td align="left">▇▁▁▁▁</td>
 </tr>
 <tr class="odd">
 <td align="left">reviews</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">5.03e+02</td>
-<td align="right">4.94e+02</td>
+<td align="right">503.31</td>
+<td align="right">493.74</td>
 <td align="right">2.0</td>
-<td align="right">1.99e+02</td>
-<td align="right">3.64e+02</td>
-<td align="right">6.31e+02</td>
-<td align="right">5.31e+03</td>
+<td align="right">199.0</td>
+<td align="right">364.0</td>
+<td align="right">631.0</td>
+<td align="right">5312.0</td>
 <td align="left">▇▁▁▁▁</td>
 </tr>
 <tr class="even">
 <td align="left">rating</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">6.39e+00</td>
-<td align="right">1.05e+00</td>
+<td align="right">6.39</td>
+<td align="right">1.05</td>
 <td align="right">1.6</td>
-<td align="right">5.80e+00</td>
-<td align="right">6.50e+00</td>
-<td align="right">7.10e+00</td>
-<td align="right">9.30e+00</td>
+<td align="right">5.8</td>
+<td align="right">6.5</td>
+<td align="right">7.1</td>
+<td align="right">9.3</td>
 <td align="left">▁▁▆▇▁</td>
 </tr>
 </tbody>
@@ -382,9 +369,13 @@ skim(distinct(movies,title, keep_all = FALSE))</code></pre>
 </table>
 <p>Next, we create a table of the number of movies by genre.</p>
 <pre class="r"><code>movies_table &lt;- movies %&gt;% 
-  count(genre, wt = NULL, sort = TRUE)
-
-movies_table</code></pre>
+  count(genre, wt = NULL, sort = TRUE)</code></pre>
+<pre><code>## Warning: `count_()` is deprecated as of dplyr 0.7.0.
+## Please use `count()` instead.
+## See vignette(&#39;programming&#39;) for more help
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre class="r"><code>movies_table</code></pre>
 <pre><code>##          genre   n
 ## 1       Comedy 848
 ## 2       Action 738
@@ -410,9 +401,9 @@ gross_budget &lt;- movies %&gt;%
   summarise(average_gross = mean(gross,na.rm = TRUE),
             average_budget = mean(budget,na.rm = TRUE)) %&gt;% 
   mutate(return_on_budget = average_gross/average_budget) %&gt;% 
-  arrange(desc(return_on_budget))
-
-gross_budget</code></pre>
+  arrange(desc(return_on_budget))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>gross_budget</code></pre>
 <pre><code>## # A tibble: 17 x 4
 ##    genre       average_gross average_budget return_on_budget
 ##    &lt;chr&gt;               &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
@@ -440,9 +431,9 @@ gross_directors &lt;- movies %&gt;%
   summarise(total_gross = sum(gross,na.rm = TRUE), mean_gross = mean(gross,na.rm = TRUE), 
                               median_gross = median(gross,na.rm = TRUE), std_dev_gross = sd(gross,na.rm = TRUE)) %&gt;% 
   top_n(15,total_gross) %&gt;% 
-  arrange(desc(total_gross))
-
-gross_directors</code></pre>
+  arrange(desc(total_gross))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>gross_directors</code></pre>
 <pre><code>## # A tibble: 15 x 5
 ##    director          total_gross mean_gross median_gross std_dev_gross
 ##    &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;
@@ -467,9 +458,9 @@ ratings_table &lt;- movies %&gt;%
   group_by(genre) %&gt;% 
   summarise(max_rating = max(rating), min_rating = min(rating,na.rm = FALSE), mean_rating = mean(rating,na.rm = TRUE), 
             median_rating = median(rating,na.rm = TRUE), std_dev_rating = sd(rating,na.rm = TRUE)) %&gt;%
-  arrange(genre)
-
-# displaying results in a table
+  arrange(genre)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code># displaying results in a table
 ratings_table</code></pre>
 <pre><code>## # A tibble: 17 x 6
 ##    genre       max_rating min_rating mean_rating median_rating std_dev_rating
@@ -501,7 +492,7 @@ ratings_plot &lt;- movies %&gt;%
   NULL
 
 ratings_plot</code></pre>
-<p><img src="/baseURL = "https://nitya-chopra.netlify.app/"projects/project2_files/figure-html/unnamed-chunk-4-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p><img src="/projects/project2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>To determine whether there is a relationship between number of facebook likes the cast of a movie receives and the gross earnings of that movie, we plot the data as below -</p>
 <pre class="r"><code># constructing a scatter plot 
   ggplot(data = movies, mapping = aes(x = cast_facebook_likes, y = gross)) +
@@ -512,7 +503,10 @@ ratings_plot</code></pre>
   scale_y_continuous() +
   geom_smooth() +
   NULL</code></pre>
-<p><img src="/baseURL = "https://nitya-chopra.netlify.app/"projects/project2_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="/projects/project2_files/figure-html/gross_on_fblikes-1.png" width="672" /></p>
 <pre class="r"><code># Alpha of 0.2 is used to see where there is a cluster of data points on the plot. As there are a few outliers, the x variable of Cast Facebook Likes is restricted from 0 to 200,000.</code></pre>
 <p>Examining the plot, we can conclude that that Cast Facebook Likes is not a good predictor of gross movie revenue. There is no clear trend with a varying amount of movie revenue earned per amount of Facebook Cast Likes.</p>
 <p>Let’s see if another variable portrays better correlation with gross revenue.</p>
@@ -523,19 +517,23 @@ ggplot(data = movies, mapping = aes(x = budget, y = gross)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   geom_smooth() +
   NULL</code></pre>
-<p><img src="/baseURL = "https://nitya-chopra.netlify.app/"projects/project2_files/figure-html/gross_on_budget-1.png" width="648" style="display: block; margin: auto;" />
-As seen in the plot above, budget is a better indicator to determine gross revenue for each movie, however it is by far a perfect indicator. For each budget value, there is a wide spread of values for gross revenue. However, it is clear that with a low budget, a movie is likely to have low gross revenue.</p>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="/projects/project2_files/figure-html/gross_on_budget-1.png" width="672" /></p>
+<p>As seen in the plot above, budget is a better indicator to determine gross revenue for each movie, however it is by far a perfect indicator. For each budget value, there is a wide spread of values for gross revenue. However, it is clear that with a low budget, a movie is likely to have low gross revenue.</p>
 <p>Let us also check if ratings are a good indicator of gross revenue a movie earns.</p>
-<pre class="r"><code># plotting ratings and gross earnings of movies faceted by genre
+<pre class="r"><code>options(warn=-1)
+
+# plotting ratings and gross earnings of movies faceted by genre
 movies %&gt;% 
 ggplot(data = movies, mapping = aes(x = rating, y = gross)) +
   geom_point(alpha = 0.2) +
-  labs(title = &quot;Relationship Between Gross Earnings and Ratings &quot;, x = &quot;Rating&quot;, y = &quot;Gross&quot;) + 
   geom_smooth() +
+  labs(title = &quot;Relationship Between Gross Earnings and Ratings &quot;, x = &quot;Rating&quot;, y = &quot;Gross&quot;) + 
   facet_wrap(~genre) +
   NULL</code></pre>
-<p><img src="/baseURL = "https://nitya-chopra.netlify.app/"projects/project2_files/figure-html/gross_on_rating-1.png" width="648" style="display: block; margin: auto;" />
-As seen above there are varying relationships developed for IMDB rating and gross revenue for each genre.</p>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/projects/project2_files/figure-html/gross_on_rating-1.png" width="672" /></p>
+<p>As seen above there are varying relationships developed for IMDB rating and gross revenue for each genre.</p>
 <p>Genres that have the largest data such as action, comedy and drama show that as ratings increase, there is more gross revenue. Action in particular highlights this relationship. However there are a few genres with limited data points where no relationship can be established such as Musical, Romance, Thriller and Western.</p>
 <p>We think this such correlation and lack of data points also has something to do with the popularity of each genre. In less popular genres such as Documentary, irrespective of the ratings, the gross earnings remain more or less constant. In more popular genres such as Action and Adventure, higher ratings are relatively more correlated with earnings.</p>
 </div>

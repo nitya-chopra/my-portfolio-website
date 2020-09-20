@@ -6,7 +6,7 @@
     <description>Recent content in Projects on Nitya&#39;s Portfolio Website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,20 +14,63 @@
     <item>
       <title>Cheers!</title>
       <link>/projects/project1/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/projects/project1/</guid>
-      <description>knitr::opts_chunk$set( message = FALSE, warning = FALSE, tidy=FALSE, # display code as typed size=&amp;quot;small&amp;quot;) # slightly smaller font for code options(digits = 3) # default figure size knitr::opts_chunk$set( fig.width=6.75, fig.height=6.75, fig.align = &amp;quot;center&amp;quot; ) Where Do People Drink The Most Beer, Wine And Spirits? Using the ‘drinks’ data from the ‘fivethirtyeight’ package, we are analyzing the consumption of beer, wine and spirits in different countries.
-# loading the package and dataset library(fivethirtyeight) data(drinks) Viewing variable types</description>
+      <description>Where Do People Drink The Most Beer, Wine And Spirits? Using the ‘drinks’ data from the ‘fivethirtyeight’ package, we are analyzing the consumption of beer, wine and spirits in different countries.
+# loading the package and dataset library(fivethirtyeight) data(drinks) Viewing variable types
+# reviewing all columns and data types in the dataset glimpse(drinks) ## Rows: 193 ## Columns: 5 ## $ country &amp;lt;chr&amp;gt; &amp;quot;Afghanistan&amp;quot;, &amp;quot;Albania&amp;quot;, &amp;quot;Algeria&amp;quot;, &amp;quot;An… ## $ beer_servings &amp;lt;int&amp;gt; 0, 89, 25, 245, 217, 102, 193, 21, 261, … ## $ spirit_servings &amp;lt;int&amp;gt; 0, 132, 0, 138, 57, 128, 25, 179, 72, 75… ## $ wine_servings &amp;lt;int&amp;gt; 0, 54, 14, 312, 45, 45, 221, 11, 212, 19… ## $ total_litres_of_pure_alcohol &amp;lt;dbl&amp;gt; 0.</description>
     </item>
     
     <item>
-      <title>Project 2</title>
+      <title>Et tu, Brexit?</title>
+      <link>/projects/project6/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project6/</guid>
+      <description>Brexit plot Brexit results plotted by UK political parties to answer how political affilitation translated to Brexit voting
+# load the data brexit_results &amp;lt;- read_csv(here::here(&amp;quot;Data&amp;quot;,&amp;quot;brexit_results.csv&amp;quot;)) ## Parsed with column specification: ## cols( ## Seat = col_character(), ## con_2015 = col_double(), ## lab_2015 = col_double(), ## ld_2015 = col_double(), ## ukip_2015 = col_double(), ## leave_share = col_double(), ## born_in_uk = col_double(), ## male = col_double(), ## unemployed = col_double(), ## degree = col_double(), ## age_18to24 = col_double() ## ) glimpse(brexit_results) ## Rows: 632 ## Columns: 11 ## $ Seat &amp;lt;chr&amp;gt; &amp;quot;Aldershot&amp;quot;, &amp;quot;Aldridge-Brownhills&amp;quot;, &amp;quot;Altrincham and Sale … ## $ con_2015 &amp;lt;dbl&amp;gt; 50.</description>
+    </item>
+    
+    <item>
+      <title>High-schoolers &amp; (Hypothe)size</title>
+      <link>/projects/project5/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project5/</guid>
+      <description>Youth Risk Behavior Surveillance Every two years, the Centers for Disease Control and Prevention conduct the YRBSS survey, where it takes data from high schoolers (9th through 12th grade), to analyze health patterns. We will work with a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted.
+Load the data Let’s load and inspect the data first.
+# loading and inspecting data data(yrbss) glimpse(yrbss) ## Rows: 13,583 ## Columns: 13 ## $ age &amp;lt;int&amp;gt; 14, 14, 15, 15, 15, 15, 15, 14, 15, 15, 15, … ## $ gender &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;fem… ## $ grade &amp;lt;chr&amp;gt; &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;, &amp;quot;9&amp;quot;,… ## $ hispanic &amp;lt;chr&amp;gt; &amp;quot;not&amp;quot;, &amp;quot;not&amp;quot;, &amp;quot;hispanic&amp;quot;, &amp;quot;not&amp;quot;, &amp;quot;not&amp;quot;, &amp;quot;not… ## $ race &amp;lt;chr&amp;gt; &amp;quot;Black or African American&amp;quot;, &amp;quot;Black or Afric… ## $ height &amp;lt;dbl&amp;gt; NA, NA, 1.</description>
+    </item>
+    
+    <item>
+      <title>If Only We Could Bike Away from COVID</title>
+      <link>/projects/project4/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project4/</guid>
+      <description>Excess rentals in TfL bike sharing The following reads in data for daily bike rides from Tfl.
+url &amp;lt;- &amp;quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&amp;quot; # Download TFL data to temporary file httr::GET(url, write_disk(bike.temp &amp;lt;- tempfile(fileext = &amp;quot;.xlsx&amp;quot;))) ## Response [https://airdrive-secure.s3-eu-west-1.amazonaws.com/london/dataset/number-bicycle-hires/2020-09-18T09%3A06%3A54/tfl-daily-cycle-hires.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Credential=AKIAJJDIMAIVZJDICKHA%2F20200919%2Feu-west-1%2Fs3%2Faws4_request&amp;amp;X-Amz-Date=20200919T174441Z&amp;amp;X-Amz-Expires=300&amp;amp;X-Amz-Signature=c3ae7b68af5142ecf2f8fd43860a9127f0d8ad19b01d44af31f7b152797fe364&amp;amp;X-Amz-SignedHeaders=host] ## Date: 2020-09-19 17:46 ## Status: 200 ## Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ## Size: 165 kB ## &amp;lt;ON DISK&amp;gt; /var/folders/ns/xt8dxcnd4s9glxyv4_3pqt040000gn/T//RtmpwOyvgb/file22dd49a8e91e.xlsx # Use read_excel to read it as dataframe bike0 &amp;lt;- read_excel(bike.temp, sheet = &amp;quot;Data&amp;quot;, range = cell_cols(&amp;quot;A:B&amp;quot;)) # change dates to get year, month, and week bike &amp;lt;- bike0 %&amp;gt;% clean_names() %&amp;gt;% rename (bikes_hired = number_of_bicycle_hires) %&amp;gt;% mutate (year = year(day), month = lubridate::month(day, label = TRUE), week = isoweek(day)) %&amp;gt;% filter(year&amp;gt;=2015) The following produces monthly changes in Tfl bike rentals faceted by year.</description>
+    </item>
+    
+    <item>
+      <title>It&#39;s Getting Hot In Here</title>
+      <link>/projects/project3/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project3/</guid>
+      <description>Climate change and temperature anomalies To study climate change, we found data on the Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies.
+We ran the code below to load the file:
+weather &amp;lt;- read_csv(&amp;quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&amp;quot;, skip = 1, #skip one row as real data starts from row 2 na = &amp;quot;***&amp;quot;) #missing data is coded as *** so we specify that here ## Parsed with column specification: ## cols( ## Year = col_double(), ## Jan = col_double(), ## Feb = col_double(), ## Mar = col_double(), ## Apr = col_double(), ## May = col_double(), ## Jun = col_double(), ## Jul = col_double(), ## Aug = col_double(), ## Sep = col_double(), ## Oct = col_double(), ## Nov = col_double(), ## Dec = col_double(), ## `J-D` = col_double(), ## `D-N` = col_double(), ## DJF = col_double(), ## MAM = col_double(), ## JJA = col_double(), ## SON = col_double() ## ) weather ## # A tibble: 140 x 19 ## Year Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov ## &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 1880 -0.</description>
+    </item>
+    
+    <item>
+      <title>Netflix &#43; R</title>
       <link>/projects/project2/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/projects/project2/</guid>
-      <description>knitr::opts_chunk$set( message = FALSE, warning = FALSE, tidy=FALSE, # display code as typed size=&amp;quot;small&amp;quot;) # slightly smaller font for code options(digits = 3) # default figure size knitr::opts_chunk$set( fig.width=6.75, fig.height=6.75, fig.align = &amp;quot;center&amp;quot; ) Analysis of movies- IMDB dataset A sample of movies will be analyzed from the IMDB 5000 movie dataset.
+      <description>Analysis of movies- IMDB dataset A sample of movies will be analyzed from the IMDB 5000 movie dataset.
 # The movies dataset is created taken from the csv file &amp;quot;movies.csv&amp;quot; movies &amp;lt;- read.csv(here::here(&amp;quot;data&amp;quot;, &amp;quot;movies.csv&amp;quot;)) # viewing the dataset glimpse(movies) ## Rows: 2,961 ## Columns: 11 ## $ title &amp;lt;chr&amp;gt; &amp;quot;Avatar&amp;quot;, &amp;quot;Titanic&amp;quot;, &amp;quot;Jurassic World&amp;quot;, &amp;quot;The Aveng… ## $ genre &amp;lt;chr&amp;gt; &amp;quot;Action&amp;quot;, &amp;quot;Drama&amp;quot;, &amp;quot;Action&amp;quot;, &amp;quot;Action&amp;quot;, &amp;quot;Action&amp;quot;, … ## $ director &amp;lt;chr&amp;gt; &amp;quot;James Cameron&amp;quot;, &amp;quot;James Cameron&amp;quot;, &amp;quot;Colin Trevorro… ## $ year &amp;lt;int&amp;gt; 2009, 1997, 2015, 2012, 2008, 1999, 1977, 2015, 2… ## $ duration &amp;lt;int&amp;gt; 178, 194, 124, 173, 152, 136, 125, 141, 164, 93, … ## $ gross &amp;lt;int&amp;gt; 760505847, 658672302, 652177271, 623279547, 53331… ## $ budget &amp;lt;int&amp;gt; 237000000, 200000000, 150000000, 220000000, 18500… ## $ cast_facebook_likes &amp;lt;int&amp;gt; 4834, 45223, 8458, 87697, 57802, 37723, 13485, 92… ## $ votes &amp;lt;int&amp;gt; 886204, 793059, 418214, 995415, 1676169, 534658, … ## $ reviews &amp;lt;int&amp;gt; 3777, 2843, 1934, 2425, 5312, 3917, 1752, 1752, 3… ## $ rating &amp;lt;dbl&amp;gt; 7.</description>
     </item>
     

@@ -1,0 +1,267 @@
+---
+title: "It's Getting Hot In Here"
+date: "2020-09-19"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+
+
+<div id="climate-change-and-temperature-anomalies" class="section level1">
+<h1>Climate change and temperature anomalies</h1>
+<p>To study climate change, we found data on the <em>Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies</em> in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies.</p>
+<p>We ran the code below to load the file:</p>
+<pre class="r"><code>weather &lt;- read_csv(&quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&quot;, 
+           skip = 1, #skip one row as real data starts from row 2
+           na = &quot;***&quot;) #missing data is coded as *** so we specify that here</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Year = col_double(),
+##   Jan = col_double(),
+##   Feb = col_double(),
+##   Mar = col_double(),
+##   Apr = col_double(),
+##   May = col_double(),
+##   Jun = col_double(),
+##   Jul = col_double(),
+##   Aug = col_double(),
+##   Sep = col_double(),
+##   Oct = col_double(),
+##   Nov = col_double(),
+##   Dec = col_double(),
+##   `J-D` = col_double(),
+##   `D-N` = col_double(),
+##   DJF = col_double(),
+##   MAM = col_double(),
+##   JJA = col_double(),
+##   SON = col_double()
+## )</code></pre>
+<pre class="r"><code>weather</code></pre>
+<pre><code>## # A tibble: 140 x 19
+##     Year   Jan    Feb    Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  1880 -0.54 -0.38  -0.26  -0.37 -0.11 -0.22 -0.23 -0.24 -0.26 -0.32 -0.37
+##  2  1881 -0.19 -0.25   0.02  -0.02 -0.06 -0.36 -0.06 -0.03 -0.23 -0.4  -0.42
+##  3  1882  0.22  0.22   0     -0.36 -0.32 -0.38 -0.37 -0.14 -0.17 -0.53 -0.32
+##  4  1883 -0.59 -0.67  -0.16  -0.27 -0.32 -0.26 -0.09 -0.26 -0.33 -0.21 -0.4 
+##  5  1884 -0.23 -0.11  -0.65  -0.62 -0.42 -0.52 -0.48 -0.5  -0.45 -0.41 -0.48
+##  6  1885 -1    -0.37  -0.21  -0.53 -0.55 -0.47 -0.39 -0.44 -0.32 -0.3  -0.28
+##  7  1886 -0.68 -0.68  -0.570 -0.34 -0.34 -0.43 -0.2  -0.47 -0.34 -0.31 -0.45
+##  8  1887 -1.07 -0.580 -0.36  -0.42 -0.27 -0.2  -0.23 -0.52 -0.17 -0.4  -0.19
+##  9  1888 -0.53 -0.59  -0.580 -0.24 -0.16 -0.04  0.04 -0.19 -0.12  0.04 -0.03
+## 10  1889 -0.31  0.35   0.07   0.15 -0.05 -0.12 -0.1  -0.16 -0.26 -0.34 -0.61
+## # … with 130 more rows, and 7 more variables: Dec &lt;dbl&gt;, `J-D` &lt;dbl&gt;,
+## #   `D-N` &lt;dbl&gt;, DJF &lt;dbl&gt;, MAM &lt;dbl&gt;, JJA &lt;dbl&gt;, SON &lt;dbl&gt;</code></pre>
+<p>Next, we cleaned the dataset - discarded unwanted columns and converted the wide format to a long format.</p>
+<pre class="r"><code># dropping columns we don&#39;t need
+weather2 &lt;- weather %&gt;% select(-`J-D`, -`D-N`, -DJF, -MAM, -JJA, -SON)
+weather2</code></pre>
+<pre><code>## # A tibble: 140 x 13
+##     Year   Jan    Feb    Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  1880 -0.54 -0.38  -0.26  -0.37 -0.11 -0.22 -0.23 -0.24 -0.26 -0.32 -0.37
+##  2  1881 -0.19 -0.25   0.02  -0.02 -0.06 -0.36 -0.06 -0.03 -0.23 -0.4  -0.42
+##  3  1882  0.22  0.22   0     -0.36 -0.32 -0.38 -0.37 -0.14 -0.17 -0.53 -0.32
+##  4  1883 -0.59 -0.67  -0.16  -0.27 -0.32 -0.26 -0.09 -0.26 -0.33 -0.21 -0.4 
+##  5  1884 -0.23 -0.11  -0.65  -0.62 -0.42 -0.52 -0.48 -0.5  -0.45 -0.41 -0.48
+##  6  1885 -1    -0.37  -0.21  -0.53 -0.55 -0.47 -0.39 -0.44 -0.32 -0.3  -0.28
+##  7  1886 -0.68 -0.68  -0.570 -0.34 -0.34 -0.43 -0.2  -0.47 -0.34 -0.31 -0.45
+##  8  1887 -1.07 -0.580 -0.36  -0.42 -0.27 -0.2  -0.23 -0.52 -0.17 -0.4  -0.19
+##  9  1888 -0.53 -0.59  -0.580 -0.24 -0.16 -0.04  0.04 -0.19 -0.12  0.04 -0.03
+## 10  1889 -0.31  0.35   0.07   0.15 -0.05 -0.12 -0.1  -0.16 -0.26 -0.34 -0.61
+## # … with 130 more rows, and 1 more variable: Dec &lt;dbl&gt;</code></pre>
+<pre class="r"><code># converting dataframe from wide to long format using pivot_longer( ) 
+tidyweather &lt;- weather2 %&gt;% pivot_longer(cols=2:13, names_to=&quot;month&quot;, values_to=&quot;delta&quot;)
+tidyweather</code></pre>
+<pre><code>## # A tibble: 1,680 x 3
+##     Year month delta
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1  1880 Jan   -0.54
+##  2  1880 Feb   -0.38
+##  3  1880 Mar   -0.26
+##  4  1880 Apr   -0.37
+##  5  1880 May   -0.11
+##  6  1880 Jun   -0.22
+##  7  1880 Jul   -0.23
+##  8  1880 Aug   -0.24
+##  9  1880 Sep   -0.26
+## 10  1880 Oct   -0.32
+## # … with 1,670 more rows</code></pre>
+<p>On further inspection, our dataframe has three variables now - one each for year, month and delta (temperature deviation).</p>
+<div id="plotting-information" class="section level2">
+<h2>Plotting Information</h2>
+<p>We plotted the data using a time-series scatter plot, and added a trendline. We used ‘lubridate’ for dates to ensure that delta plots chronologically.</p>
+<pre class="r"><code>options(warn=-1)
+
+# reformatting dates
+tidyweather &lt;- tidyweather %&gt;%
+  mutate(date = ymd(paste(as.character(Year), month, &quot;1&quot;)), # lubridate used here
+         month = month(date, label=TRUE),
+         Year = year(date)) 
+
+# plotting temperature deviation 
+ggplot(tidyweather, aes(x=date, y = delta))+
+  geom_point(alpha=0.5) +
+  geom_smooth(color=&quot;red&quot;) +
+  theme_bw() +
+  theme(
+    plot.title=element_text(face=&quot;bold&quot;)
+  ) +
+  labs (
+    title = &quot;Weather Anomalies&quot;,
+    subtitle = &quot;Trends in temperature deviations over the period 1880 - 2019&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Temperature Deviation&quot;
+  )</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="/projects/project3_files/figure-html/scatter_plot-1.png" width="672" /></p>
+<p>Next, we studied the effect of increasing temperature by month.</p>
+<pre class="r"><code>options(warn=-1)
+
+# plotting scatterplot and trend lines by month
+ggplot(tidyweather, aes(x=date, y = delta))+
+  geom_point(size=0.5, alpha=0.6)+
+  geom_smooth(color=&quot;red&quot;) +
+  facet_wrap(~month) + # to separate plots by month
+  theme_bw() +
+  theme(
+    plot.title=element_text(face=&quot;bold&quot;)
+  ) +
+  labs (
+    title = &quot;It&#39;s Getting Hot in Here&quot;,
+    subtitle=&quot;Trends in temperature deviations BY MONTH between 1880 and 2019&quot;,
+    y=&quot;Temperature Deviation&quot;,
+    x=&quot;Year&quot;
+  )</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/projects/project3_files/figure-html/facet_wrap-1.png" width="672" /></p>
+<blockquote>
+<p>Overall, we see a gradual rise in the average temperature across all twelve months from 1880 to 2019 owing to Global Warming. This rise has been greater for winter months such as January, February, November and December, compared to summer months such as May, June, July and August.</p>
+</blockquote>
+<blockquote>
+<p>Another point worth mentioning is that the winter months depict greater deviation (the points are more scattered around the trendline) compared to summer months which have relatively lower deviation (the points are closer to the trendline)</p>
+</blockquote>
+<p>Since it is sometimes useful to group data into different time periods to study historical data, we created a new data frame called <code>comparison</code> that groups data into five time periods: 1881-1920, 1921-1950, 1951-1980, 1981-2010 and 2011-present.</p>
+<pre class="r"><code>comparison &lt;- tidyweather %&gt;% 
+  filter(Year&gt;= 1881) %&gt;%     #remove years prior to 1881
+  #create new variable &#39;interval&#39;, and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ &quot;1881-1920&quot;,
+    Year %in% c(1921:1950) ~ &quot;1921-1950&quot;,
+    Year %in% c(1951:1980) ~ &quot;1951-1980&quot;,
+    Year %in% c(1981:2010) ~ &quot;1981-2010&quot;,
+    TRUE ~ &quot;2011-present&quot;
+  ))
+
+comparison</code></pre>
+<pre><code>## # A tibble: 1,668 x 5
+##     Year month delta date       interval 
+##    &lt;dbl&gt; &lt;ord&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;    
+##  1  1881 Jan   -0.19 1881-01-01 1881-1920
+##  2  1881 Feb   -0.25 1881-02-01 1881-1920
+##  3  1881 Mar    0.02 1881-03-01 1881-1920
+##  4  1881 Apr   -0.02 1881-04-01 1881-1920
+##  5  1881 May   -0.06 1881-05-01 1881-1920
+##  6  1881 Jun   -0.36 1881-06-01 1881-1920
+##  7  1881 Jul   -0.06 1881-07-01 1881-1920
+##  8  1881 Aug   -0.03 1881-08-01 1881-1920
+##  9  1881 Sep   -0.23 1881-09-01 1881-1920
+## 10  1881 Oct   -0.4  1881-10-01 1881-1920
+## # … with 1,658 more rows</code></pre>
+<p>Once we had intervals, we studied the distribution of monthly deviations (<code>delta</code>), grouped by the different time periods we were interested in.</p>
+<pre class="r"><code>ggplot(comparison, aes(x=delta, fill=interval)) + #fill to group and colour by different time intervals
+  geom_density(alpha=0.2) +   #density plot with transparency set to 20%
+  theme_bw( ) +               # theme white background and grey lines
+  theme(
+    plot.title=element_text(face=&quot;bold&quot;) # make title bold
+  ) +
+  labs (
+    title=&quot;Distribution of Monthly Deviations&quot;,
+    subtitle = &quot;Density plot grouped by different time intervals &quot;,
+    y = &quot;&quot;,
+    x = &quot;Temperature Deviation&quot;,
+    legend.title=&quot;&quot;
+    ) +
+  guides(fill=guide_legend((title=&quot;Time Interval&quot;))) #change legend title</code></pre>
+<p><img src="/projects/project3_files/figure-html/density_plot-1.png" width="672" />
+Later, we studied average annual anomalies as well.</p>
+<pre class="r"><code>options(warn=-1)
+
+#creating yearly averages
+average_annual_anomaly &lt;- tidyweather %&gt;% 
+  group_by(Year) %&gt;%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  summarise(annual_average_delta = mean(delta, na.rm=TRUE)) # use `na.rm=TRUE` to eliminate NA (not available) values</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>#plotting the data:
+ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
+  geom_point()+
+  geom_smooth(method=&quot;loess&quot;, color=&quot;red&quot;) +  # fit the best fit line, using LOESS method
+  theme_bw() +
+  theme(
+    plot.title = element_text(face=&quot;bold&quot;)
+  ) +
+  labs (
+    title = &quot;Average Yearly Anomaly&quot;,
+    y     = &quot;Average Annual Temperature Deviations&quot;
+  )                         </code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/projects/project3_files/figure-html/averaging-1.png" width="672" />
+## Confidence Interval for <code>delta</code></p>
+<blockquote>
+<p>A one-degree global change is significant because it takes a vast amount of heat to warm all the oceans, atmosphere, and land by that much. In the past, a one- to two-degree drop was all it took to plunge the Earth into the Little Ice Age.</p>
+</blockquote>
+<p>We constructed a confidence interval for the average annual ‘delta’ since 2011, using two different methods</p>
+<p><strong>(1) a formula</strong></p>
+<pre class="r"><code>formula_CI &lt;- comparison %&gt;% 
+                filter(interval==&quot;2011-present&quot;) %&gt;% # filter for time period we&#39;re interested in
+                summarise(mean=mean(delta, na.rm=TRUE), # calculate summary statistics for delta
+                          SD=sd(delta, na.rm=TRUE), 
+                          count=n(), 
+                          SE=SD/sqrt(count),
+                          lower_CI = mean - 1.96*SE,
+                          upper_CI = mean + 1.96*SE
+                          )
+
+formula_CI</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##    mean    SD count     SE lower_CI upper_CI
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 0.966 0.262   108 0.0252    0.916     1.02</code></pre>
+<p><strong>(2) bootstrap simulation with the <code>infer</code> package</strong></p>
+<pre class="r"><code># use the infer package to construct a 95% CI for delta
+library(infer)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;infer&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:mosaic&#39;:
+## 
+##     prop_test, t_test</code></pre>
+<pre class="r"><code>set.seed(1234)
+whatever_id_like &lt;- comparison %&gt;% 
+  filter(interval==&quot;2011-present&quot;) %&gt;%      # filtering for time period we&#39;re interested in
+  specify(response=delta) %&gt;%               # specifying what we&#39;re calculating CI for
+  generate(reps=1000, type=&quot;bootstrap&quot;) %&gt;% # generate random samples or reps using bootstrap
+  calculate(stat=&quot;mean&quot;)                    # calculate mean
+  
+percentile_CI &lt;- whatever_id_like %&gt;% 
+                 get_confidence_interval(comparison$delta, level=0.95, type=&quot;percentile&quot;)
+percentile_CI</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   lower_ci upper_ci
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1    0.917     1.02</code></pre>
+<blockquote>
+<p>The first method calculates summary statistics and confidence intervals (CI) using the whole data for temperature deviations (delta) from 2011 to present. On the other hand, the bootstrap method creates 1000 random samples (reps), and calculates their means on the basis of which we arrive at CIs.</p>
+</blockquote>
+<blockquote>
+<p>The 95% lower CI and upper CI is 0.917 and 1.02 respectively, which means that out of every 1000 samples, we are confident that for 950 samples the range [0.917, 1.02] would correctly contain the true mean of the population.</p>
+</blockquote>
+</div>
+</div>

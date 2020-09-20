@@ -11,6 +11,20 @@ output:
     code_folding: show
 ---
 
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+# Load ggplot2, dplyr, and all the other tidyverse packages
+library(tidyverse)  
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(fivethirtyeight)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+```
+
 # Where Do People Drink The Most Beer, Wine And Spirits?
 
 Using the 'drinks' data from the 'fivethirtyeight' package, we are analyzing the consumption of beer, wine and spirits in different countries. 
@@ -24,6 +38,7 @@ data(drinks)
 Viewing variable types
 
 ```{r glimpse_skim_data}
+
 # reviewing all columns and data types in the dataset
 glimpse(drinks)
 

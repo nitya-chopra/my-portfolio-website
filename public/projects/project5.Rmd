@@ -1,0 +1,312 @@
+---
+title: "High-schoolers & (Hypothe)size"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+```{r load-libraries, echo=FALSE, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(GGally)
+library(readxl)
+library(here)
+library(skimr)
+library(janitor)
+library(broom)
+library(tidyquant)
+library(infer)
+library(openintro)
+```
+
+# Youth Risk Behavior Surveillance
+
+Every two years, the Centers for Disease Control and Prevention conduct the YRBSS survey, where it takes data from high schoolers (9th through 12th grade), to analyze health patterns. We will work with a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted.
+
+## Load the data
+
+Let's load and inspect the data first. 
+
+```{r}
+# loading and inspecting data
+data(yrbss)
+glimpse(yrbss)
+```
+
+There are observations on 13 different variables, some categorical and some numerical. 
+Before we carry on with our analysis, let's check `skimr::skim()` for any missing values, summary statistics of numerical variables, and rough histograms.
+
+```{r}
+
+skimr::skim(yrbss)
+
+# use this to understand what all the columns are
+??yrbss
+```
+
+From the above, we can conclude that all 13 variables have a lot of missing values
+
+## Exploratory Data Analysis
+
+You will first start with analyzing the `weight` of participants in kilograms. Using visualization and summary statistics, describe the distribution of weights. How many observations are we missing weights from?
+
+```{r, eda_on_weight}
+
+# filtering out missing weight values
+weight_data <- yrbss %>% 
+                filter(weight!="NA")
+
+# plot to see distribution of weight               
+weight_plot <- ggplot(weight_data, mapping=aes(x=weight)) +
+                geom_density() +
+                theme_bw() +
+                theme(
+                  plot.title=element_text(face="bold")
+                ) +
+                labs(
+                  title = "Distribution of Weight",
+                  subtitle = "Density plot of participants' weights",
+                  x = "weight (in kilograms)",
+                  y=""
+                ) +
+                NULL
+
+weight_plot
+
+# summary stats for weight distribution
+summary(weight_data$weight)
+                
+```
+
+> The data for weight is missing for 1004 survey respondents. We have filtered them out before plotting the density plot above. 
+
+> The distribution is skewed to the right as median weight (64.4 kgs) is less than the mean weight (67.9 kgs). It is so because we have one outlier (max weight = 181 kgs) pulling the average up. 
+
+Let us try to identify how level of physical activity affects a high schooler's weight. We'll create a rough plot quickly to visualize trends, identify strong associations, and develop research questions.
+
+``` {r}
+
+# plotting weight vs physical activity
+exercise_weight_plot <- ggplot(weight_data, aes(x=weight, y=physically_active_7d)) +
+                        geom_point(alpha=0.8, size=0.5) +
+                        theme_bw() +
+                        theme(
+                          plot.title = element_text(face="bold")
+                        ) +
+                        labs(
+                          title = "Trends in Physical Activity Levels and Weight",
+                          x = "Weight",
+                          y = "Level of Physical Activity"
+                        ) +
+                        scale_y_discrete(limits=c(0, 1, 2, 3, 4, 5, 6, 7)) # change discrete values on y axis
+
+exercise_weight_plot
+
+
+```
+
+> One would expect a correlation between level of physical activity and weight of a person - higher physical activity should ideally imply a lower (read: healthier) weight, however, according to our data that is not the case. There seems to be roughly the same kind of distribution of weights across all physical activity levels i.e. irrespective of how active a set of people has been in the last 7 days, their weights are identical to another set which hasn't been as active. 
+
+Next, let us create a new variable `physical_3plus`, which will be `yes` if they are physically active for at least 3 days a week, and `no` otherwise.
+
+  
+```{r}
+
+# adding a new variable to measure physical activity levels
+yrbss <- yrbss %>% 
+  mutate(
+    physical_3plus = ifelse(physically_active_7d >= 3, "yes", "no")
+    ) 
+
+yrbss_stats <- yrbss %>% 
+  filter(!is.na(physical_3plus)) %>%          # getting rid of null values 
+  group_by(physical_3plus) %>%                # grouping by 'yes' or 'no'
+  summarise(count = n()) %>%                  # counting rows in each category
+  mutate(prop= count/sum(count))              # calculating proportion of each category
+
+yrbss_stats
+
+```
+
+Can you provide a 95% confidence interval for the population proportion of high schoolers that are *NOT* active 3 or more days per week?
+
+``` {r}
+
+# assigning values for p hat and size of population
+p_hat_not_active <- yrbss_stats$prop[1] 
+size <- sum(yrbss_stats$count)
+t_crit <- qt(0.975, size - 1)
+  
+# calculating se and mean
+se_not_active <- sqrt(p_hat_not_active*(1-p_hat_not_active)/size)
+mean_not_active <- se_not_active/sqrt(size)
+
+# calculating confidence intervals
+
+lower_ci_not_active <- mean_not_active - t_crit*se_not_active
+upper_ci_not_active <- mean_not_active + t_crit*se_not_active
+
+paste("95% confidence interval for high schoolers who are NOT active for 3 or more days per week is: ", round(lower_ci_not_active, 6), ",", round(upper_ci_not_active,6))
+
+
+```
+
+Make a boxplot of `physical_3plus` vs. `weight`. Is there a relationship between these two variables? What did you expect and why?
+
+```{r, boxplot}
+
+yrbss_boxplot <- yrbss %>% 
+                  filter(!is.na(physical_3plus), !is.na(weight)) %>%
+                  ggplot(aes(x=weight, y=physical_3plus)) +
+                  geom_boxplot() +
+                  theme_bw() +
+                  theme(
+                    plot.title = element_text(face="bold")
+                  ) +
+                  labs(
+                    title = "Relationship between physical activity and weight",
+                    y = "physical activity level category",
+                    x = "weight (in kgs)"
+                  ) +
+                  NULL
+
+yrbss_boxplot
+
+# summary stats for "yes"
+summary_yes <- yrbss %>% 
+          filter(!is.na(physical_3plus), !is.na(weight), physical_3plus=="yes") %>%
+          summarise (median_weight=median(weight), mean_weight=mean(weight))
+summary_yes
+
+# summary stats for "no"
+summary_no <- yrbss %>% 
+          filter(!is.na(physical_3plus), !is.na(weight), physical_3plus=="no") %>%
+          summarise (median_weight=median(weight), mean_weight=mean(weight))
+summary_no
+        
+                
+
+```
+
+> The boxplots are a little surprising as one would expect them to be the other way round i.e. people who are more physically active ('yes' or 3+ days a week) should have a lower median weight compared to people who are less active physically ('no' or < 3 days a week)
+
+> One possible reason why this might be the case is that a lower weight does not necessarily mean a high schooler is healthier or more active. Other factors such as age, dietary habits, amount of sleep, etc could be influencing weight to a greater extent.  
+
+## Confidence Interval
+
+The boxplots above show how the medians of the two distributions compare, however we can also compare the means of the distributions using either a confidence interval or a hypothesis test. 
+
+```{r}
+
+# creating confidence interval for mean weight in two categories
+yrbss %>%
+  group_by(physical_3plus) %>%
+  filter(!is.na(physical_3plus)) %>% 
+  summarise(mean_weight = mean(weight, na.rm = TRUE), #use na.rm to ignore missing values
+            sd_weight = sd(weight, na.rm=TRUE),
+            count = n(),
+            se_weight = sd_weight/sqrt(count),
+            t_critical = qt(0.975, count-1), 
+            margin_of_error = t_critical * se_weight,
+            lower = mean_weight - t_critical * se_weight,
+            upper = mean_weight + t_critical * se_weight
+            )
+
+```
+
+> There is an observed difference of roughly 1.7 kg (68.4 - 66.7) in the mean weights, and we notice that the two confidence intervals do not overlap. 
+
+It seems that the difference is at least 95% statistically significant. So let us also conduct a hypothesis test to verify this.
+
+## Hypothesis test with formula
+
+Null Hypothesis (Ho) : mean weight for those who exercise at least 3 times a week is the same as mean weight for those who don't exercise as frequently
+
+Alternative Hypothesis (H1) : mean weights are different for those who exercise at least 3 times a week and those who don’t
+
+```{r}
+# to get rid of scientific notations
+options(scipen=999)
+
+# hypothesis test
+ttest <- t.test(weight ~ physical_3plus, data = yrbss)
+ttest
+
+# to view the different components/ stats under t.test
+names(ttest)
+
+# extract the statistic needed
+ttest$p.value
+
+
+```
+
+> since the p-value is very low (significantly less than 5%), we reject the null hypothesis. Therefore, the difference of 1.7kgs between the means of both samples wasn't just by chance or sampling error. 
+
+## Hypothesis test with `infer`
+
+Next, we will use a new function, `hypothesize`, which falls into the 'infer' workflow to conduct a hypothesis test.
+
+```{r}
+# initialising the test
+obs_diff <- yrbss %>%
+  specify(weight ~ physical_3plus) %>%
+  calculate(stat = "diff in means", order = c("yes", "no")) # statistic is difference in means with order yes - no != 0
+
+obs_diff
+```
+
+After we have initialized the test, we need to simulate the test on the null distribution.
+
+```{r}
+
+# saving null distribution
+null_dist <- yrbss %>%
+  specify(weight ~ physical_3plus) %>%
+  hypothesize(null = "independence") %>%  
+  # here hypothesize is used to set null hypothesis as a test for independence i.e. no difference b/w two population means
+  # in case on 1 sample, we can set null = "point" to test hypothesis relative to a point estimate
+  generate(reps = 1000, type = "permute") %>% # type is set to permute; argument used when generating a null distribution for a hypothesis test
+  calculate(stat = "diff in means", order = c("yes", "no"))
+
+null_dist
+
+```
+
+We can visualize this null distribution with the following code:
+
+```{r}
+
+#plot null distribution
+null_visualised <- ggplot(data = null_dist, aes(x = stat)) +
+  geom_histogram() +
+  theme_bw()
+
+null_visualised
+
+```
+
+Next, we can visualise to see how many of these null permutations have a difference of at least `obs_stat` of `r obs_diff %>% pull() %>% round(2)`?
+
+We can also calculate the p-value for your hypothesis test using the function `infer::get_p_value()`.
+
+```{r}
+
+#visualise the null distribution
+visualize(null_dist, bins = 10) +
+  shade_p_value(obs_stat = obs_diff, direction="both")
+
+# extract p value
+null_dist %>%
+  get_p_value(obs_stat = obs_diff, direction = "both")
+
+```
+
+> since p-value is ~0, the null hypothesis is rejected.
