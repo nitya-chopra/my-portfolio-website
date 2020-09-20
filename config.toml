@@ -139,7 +139,7 @@ disqusShortname = ""
   [params.two]
     enable = true
     title = "About Me"
-    subtitle = """I'm a student of Master's in Analytics and Management at London Business School. """
+    subtitle = """I'm a student of Master's in Analytics and Management at London Business School with a passion for all things creative and innovative - including but not limited to this website! I come from Gurgaon, India, and pursued a Bachelor's in Economics before I decided to explore the field of data analytics."""
     #buttonText = "Get Started"
     #url = "blogs"
 
