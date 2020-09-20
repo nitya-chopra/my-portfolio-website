@@ -51,13 +51,6 @@ disqusShortname = ""
       name = "R Projects"
       url = "projects"
 
-    #[[params.navigation.links]]
-      #name = "Assignment 3"
-      #url = "blogs/ipsum"
-
-    #[[params.navigation.links]]
-      #name = "Assignment 4"
-      #url = "elements.html"
 
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste

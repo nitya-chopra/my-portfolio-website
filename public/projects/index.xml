@@ -14,7 +14,7 @@
     <item>
       <title>Cheers!</title>
       <link>/projects/project1/</link>
-      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
       <guid>/projects/project1/</guid>
       <description>Where Do People Drink The Most Beer, Wine And Spirits? Using the ‘drinks’ data from the ‘fivethirtyeight’ package, we are analyzing the consumption of beer, wine and spirits in different countries.
@@ -25,7 +25,7 @@
     <item>
       <title>Et tu, Brexit?</title>
       <link>/projects/project6/</link>
-      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
       <guid>/projects/project6/</guid>
       <description>Brexit plot Brexit results plotted by UK political parties to answer how political affilitation translated to Brexit voting
@@ -35,7 +35,7 @@
     <item>
       <title>High-schoolers &amp; (Hypothe)size</title>
       <link>/projects/project5/</link>
-      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
       <guid>/projects/project5/</guid>
       <description>Youth Risk Behavior Surveillance Every two years, the Centers for Disease Control and Prevention conduct the YRBSS survey, where it takes data from high schoolers (9th through 12th grade), to analyze health patterns. We will work with a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted.
@@ -46,7 +46,7 @@ Load the data Let’s load and inspect the data first.
     <item>
       <title>If Only We Could Bike Away from COVID</title>
       <link>/projects/project4/</link>
-      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
       <guid>/projects/project4/</guid>
       <description>Excess rentals in TfL bike sharing The following reads in data for daily bike rides from Tfl.
@@ -56,7 +56,7 @@ url &amp;lt;- &amp;quot;https://data.london.gov.uk/download/number-bicycle-hires
     <item>
       <title>It&#39;s Getting Hot In Here</title>
       <link>/projects/project3/</link>
-      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
       <guid>/projects/project3/</guid>
       <description>Climate change and temperature anomalies To study climate change, we found data on the Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies.
@@ -67,7 +67,7 @@ weather &amp;lt;- read_csv(&amp;quot;https://data.giss.nasa.gov/gistemp/tabledat
     <item>
       <title>Netflix &#43; R</title>
       <link>/projects/project2/</link>
-      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
       <guid>/projects/project2/</guid>
       <description>Analysis of movies- IMDB dataset A sample of movies will be analyzed from the IMDB 5000 movie dataset.
